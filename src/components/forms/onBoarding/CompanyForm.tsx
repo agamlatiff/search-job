@@ -22,6 +22,7 @@ import {
 import { SelectTrigger } from "@radix-ui/react-select";
 import { countryList } from "@/app/utils/countriesList";
 import { Textarea } from "@/components/ui/textarea";
+import { UploadDropzone } from "@/components/general/UploadThingReexported";
 
 const CompanyForm = () => {
   const form = useForm<z.infer<typeof companySchema>>({
@@ -66,7 +67,7 @@ const CompanyForm = () => {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Location" />
+                      <SelectValue placeholder="Select Location" className="placeholder:text-left text-left"/>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -123,34 +124,45 @@ const CompanyForm = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
-            control={form.control}
-            name="about"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>About</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Tell us about your company..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="xAccount"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>X (Twitter) Account</FormLabel>
-                <FormControl>
-                  <Input placeholder="@yourcompany" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="about"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>About</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Tell us about your company..."
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="logo"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Company Logo</FormLabel>
+              <FormControl>
+                <UploadDropzone
+                  endpoint={"imageUploader"}
+                  onClientUploadComplete={(res) => {
+                    field.onChange(res[0].url);
+                  }}
+                  onUploadError={() => {
+                    console.log("error");
+                  }}
+                  className="ut-upload-icon:size-20 ut-upload-icon:text-muted-foreground ut-button:bg-primary ut-button:text-white ut-button:mt-5 ut-button:border-primary/50 ut-button:hover:bg-primary/90 ut-label:text-muted-foreground ut-allowed-content:text-muted-foreground border-primary rounded-md in-ut-upload-icon:text-red-500 ut-button:w-full has-ut-upload-icon:size-5"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   );
