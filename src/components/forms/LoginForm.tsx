@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import * as React from "react";
+import {signIn} from '../../app/utils/auth'
 import type { SVGProps } from "react";
 
 const GitHub = (props: SVGProps<SVGSVGElement>) => (
@@ -68,22 +68,30 @@ const LoginForm = () => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
-            <form>
+            <form
+              action={async () => {
+                "use server";
+                await signIn("github", {
+                  redirectTo: "/",
+                });
+              }}
+            >
               <Button variant={"outline"} className="w-full">
                 <GitHub /> Login with Github
               </Button>
             </form>
             <form>
-              <Button className="w-full" variant={'outline'}>
+              <Button className="w-full" variant={"outline"}>
                 <Google /> Login with Google
               </Button>
             </form>
           </div>
         </CardContent>
       </Card>
-      
+
       <div className="text-center text-xs text-muted-foreground text-balance">
-        By Clicking continu=iue, you agree to our terms and service and privacy policy.
+        By Clicking continu=iue, you agree to our terms and service and privacy
+        policy.
       </div>
     </div>
   );
