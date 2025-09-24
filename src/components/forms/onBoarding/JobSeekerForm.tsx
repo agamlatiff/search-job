@@ -1,3 +1,4 @@
+import { createJobSeeker } from "@/app/actions";
 import { jobSeekerSchema } from "@/app/utils/zod";
 import { UploadDropzone } from "@/components/general/UploadThingReexported";
 import { Button } from "@/components/ui/button";
@@ -13,8 +14,9 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import type z from "zod";
+import z from "zod"
 
 const JobSeekerForm = () => {
   const form = useForm<z.infer<typeof jobSeekerSchema>>({
@@ -26,9 +28,24 @@ const JobSeekerForm = () => {
     },
   });
 
+  const [pending, setPending] = useState(false);
+
+  async function onSubmit(data: z.infer<typeof jobSeekerSchema>) {
+    try {
+      setPending(true);
+      await createJobSeeker(data);
+    } catch (error) {
+      if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
+        console.log("Something went wrong");
+      }
+    } finally {
+      setPending(false);
+    }
+  }
+
   return (
     <Form {...form}>
-      <form action="" className="space-y-6">
+      <form action="" className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -68,8 +85,8 @@ const JobSeekerForm = () => {
                   {field.value ? (
                     <div className="relative w-fit">
                       <Image
-                        src={field.value}
-                        alt="Company Logo"
+                        src={'/pdf.png'}
+                        alt="PDF Resume Image"
                         height={100}
                         width={100}
                         className="rounded-lg"
@@ -104,6 +121,10 @@ const JobSeekerForm = () => {
             </FormItem>
           )}
         />
+        
+        <Button type="submit" className="w-full" disabled={pending}>
+          {pending ? "Submitting..." : "Continue"}
+        </Button>
       </form>
     </Form>
   );

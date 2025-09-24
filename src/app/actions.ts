@@ -29,7 +29,7 @@ export async function createCompany(data: z.infer<typeof companySchema>) {
   return redirect("/");
 }
 
-export async function createJobSeeker(data: z.infer<typeof companySchema>) {
+export async function createJobSeeker(data: z.infer<typeof jobSeekerSchema>) {
   const session = await requireUser();
 
   const validate = jobSeekerSchema.parse(data);
