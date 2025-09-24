@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import UserTypeSelection from "./UserTypeSelection";
 import CompanyForm from "./CompanyForm";
+import JobSeekerForm from "./JobSeekerForm";
 
 type UserSelectionType = "Company" | "JobSeeker" | null;
 
@@ -20,13 +21,9 @@ const OnBoardingForm = () => {
   function renderStep() {
     switch (step) {
       case 1:
-        return <UserTypeSelection onSelect={handleUserTypeSelection}/>
+        return <UserTypeSelection onSelect={handleUserTypeSelection} />;
       case 2:
-        return userType === "Company" ? (
-         <CompanyForm/>
-        ) : (
-          <p>User is a job seeker</p>
-        );
+        return userType === "Company" ? <CompanyForm /> : <JobSeekerForm />;
       default:
         return null;
     }
@@ -42,9 +39,7 @@ const OnBoardingForm = () => {
       </div>
 
       <Card className="max-w-lg w-full">
-        <CardContent className="p-6">
-          {renderStep()}
-        </CardContent>
+        <CardContent className="p-6">{renderStep()}</CardContent>
       </Card>
     </>
   );
