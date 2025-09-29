@@ -1,9 +1,9 @@
-import { Form } from "../ui/form";
 
 const CreateJobForm = () => {
-  return <Form>
-    
-  </Form>
+
+  return (
+
+  );
 };
 
 export default CreateJobForm;
