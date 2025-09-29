@@ -23,6 +23,7 @@ import {
 } from "@radix-ui/react-select";
 import { countryList } from "@/app/utils/countriesList";
 import SalaryRangeSelector from "../general/SalaryRangeSelector";
+import JobDescriptionEditor from "../richTextEditor/JobDescriptionEditor";
 
 const CreateJobForm = () => {
   const form = useForm<z.infer<typeof jobSchema>>({
@@ -144,6 +145,16 @@ const CreateJobForm = () => {
                 </FormControl>
               </FormItem>
             </div>
+            
+            <FormField control={form.control} name="jobDescription" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Job Description</FormLabel>
+                <FormControl>
+                  <JobDescriptionEditor/>
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}/>
           </CardContent>
         </Card>
       </form>
