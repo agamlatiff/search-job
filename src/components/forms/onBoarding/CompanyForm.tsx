@@ -85,11 +85,11 @@ const CompanyForm = () => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <FormControl>
+                  <FormControl className="placeholder:text-left text-left pl-3 text-muted-foreground">
                     <SelectTrigger>
                       <SelectValue
                         placeholder="Select Location"
-                        className="placeholder:text-left text-left"
+                        
                       />
                     </SelectTrigger>
                   </FormControl>

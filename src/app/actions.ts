@@ -8,22 +8,26 @@ import { redirect } from "next/navigation";
 import arjcet, { shield } from "./utils/arjcet";
 import { detectBot, request } from "@arcjet/next";
 
-const aj = arjcet.withRule(shield({
-  mode: "LIVE",
-})).withRule(
-  detectBot({
-    mode: "LIVE",
-    allow: []
-  })
-)
+const aj = arjcet
+  .withRule(
+    shield({
+      mode: "LIVE",
+    })
+  )
+  .withRule(
+    detectBot({
+      mode: "LIVE",
+      allow: [],
+    })
+  );
 export async function createCompany(data: z.infer<typeof companySchema>) {
   const session = await requireUser();
-  
-  const req = await request()
-  const decision = await aj.protect(req)
-  
+
+  const req = await request();
+  const decision = await aj.protect(req);
+
   if (decision.isDenied()) {
-    throw new Error('Forbidden')
+    throw new Error("Forbidden");
   }
 
   const validateData = companySchema.parse(data);
@@ -49,6 +53,12 @@ export async function createCompany(data: z.infer<typeof companySchema>) {
 export async function createJobSeeker(data: z.infer<typeof jobSeekerSchema>) {
   const session = await requireUser();
 
+  const req = await request();
+  const decision = await aj.protect(req);
+
+  if (decision.isDenied()) {
+    throw new Error("Forbidden");
+  }
   const validate = jobSeekerSchema.parse(data);
 
   await prisma.user.update({
