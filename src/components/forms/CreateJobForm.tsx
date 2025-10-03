@@ -14,13 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { jobSchema } from "@/app/utils/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
-import { Select, SelectTrigger, SelectValue } from "../ui/select";
-import {
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-} from "@radix-ui/react-select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import { countryList } from "@/app/utils/countriesList";
 import SalaryRangeSelector from "../general/SalaryRangeSelector";
 import JobDescriptionEditor from "../richTextEditor/JobDescriptionEditor";
@@ -55,13 +49,13 @@ const CreateJobForm = ({
     resolver: zodResolver(jobSchema),
     defaultValues: {
       benefits: [],
-      companyAbout: companyAbout,
+      companyDescription: companyAbout,
       companyLocation: companyLocation,
       companyName: companyName,
       companyLogo: companyLogo,
       companyWebsite: companyWebsite,
       companyXAccount: companyXAccount || "",
-      employementType: "",
+      employmentType: "",
       jobDescription: "",
       jobTitle: "",
       listingDuration: 30,
@@ -74,6 +68,7 @@ const CreateJobForm = ({
   const [pending, setPending] = useState<boolean>(false);
 
   async function onSubmit(values: z.infer<typeof jobSchema>) {
+    console.log('button');
     try {
       setPending(true);
       await createJob(values);
@@ -83,6 +78,7 @@ const CreateJobForm = ({
       }
     } finally {
       setPending(false);
+      
     }
   }
 
@@ -113,7 +109,7 @@ const CreateJobForm = ({
               />
               <FormField
                 control={form.control}
-                name="employementType"
+                name="employmentType"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Employement Type</FormLabel>
@@ -161,7 +157,7 @@ const CreateJobForm = ({
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Worldwide</SelectLabel>
-                          <SelectItem value="full-time">
+                          <SelectItem value="worldwide">
                             <span>🌍</span>
                             <span className="pl-2">Worldwide / Remote</span>
                           </SelectItem>
@@ -264,7 +260,7 @@ const CreateJobForm = ({
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Worldwide</SelectLabel>
-                          <SelectItem value="full-time">
+                          <SelectItem value="worldwide">
                             <span>🌍</span>
                             <span className="pl-2">Worldwide / Remote</span>
                           </SelectItem>
@@ -318,7 +314,7 @@ const CreateJobForm = ({
 
             <FormField
               control={form.control}
-              name="companyAbout"
+              name="companyDescription"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Company Description</FormLabel>
@@ -405,7 +401,7 @@ const CreateJobForm = ({
           </CardContent>
         </Card>
 
-        <Button className="w-full pb-5" type="submit" disabled={pending}>
+        <Button className="w-full mb-10" type="submit" disabled={pending}>
           {pending ? "Submitting" : "Create Job Post"}
         </Button>
       </form>

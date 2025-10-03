@@ -92,21 +92,28 @@ async function getCompany(userId: string) {
       website: true,
     },
   });
-  
-  if(!data) {
-    return redirect('/')
+
+  if (!data) {
+    return redirect("/");
   }
-  
-  return data
+
+  return data;
 }
 
 const PostJobPage = async () => {
-  const session = await requireUser()
-  const data = await getCompany(session?.id as string)
-  
+  const session = await requireUser();
+  const data = await getCompany(session?.id as string);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
-      <CreateJobForm companyAbout={data.about} companyLocation={data.location} companyLogo={data.logo} companyName={data.name} companyWebsite={data.website} companyXAccount={data.xAccount}/>
+      <CreateJobForm
+        companyAbout={data.about}
+        companyLocation={data.location}
+        companyLogo={data.logo}
+        companyName={data.name}
+        companyWebsite={data.website}
+        companyXAccount={data.xAccount}
+      />
       <div className="col-span-1">
         <Card>
           <CardHeader>

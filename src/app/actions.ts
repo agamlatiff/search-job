@@ -31,7 +31,7 @@ export async function createCompany(data: z.infer<typeof companySchema>) {
   }
 
   const validateData = companySchema.parse(data);
-
+  
   await prisma.user.update({
     where: {
       id: session?.id,
@@ -107,7 +107,7 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
     data: {
       jobDescription: validateData.jobDescription,
       jobTitle: validateData.jobTitle,
-      employmentType: validateData.employementType,
+      employmentType: validateData.employmentType,
       location: validateData.location,
       salaryFrom: validateData.salaryFrom,
       salaryTo: validateData.salaryTo,
